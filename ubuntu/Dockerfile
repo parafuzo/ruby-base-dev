@@ -34,10 +34,7 @@ RUN cd /tmp && \
     /bin/bash -l -c 'gem install bundler --no-rdoc --no-ri' && \
     echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 
-# Define working directory
-WORKDIR /app
-
-RUN apk add --update nodejs curl python && \
+RUN apt-get install nodejs curl python && \
     npm install -g yarn
 
 # Phantomjs 1.9.7
@@ -48,5 +45,7 @@ RUN \
   ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs && \
   ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs && \
   ln -s /usr/local/share/phantomjs-1.9.7-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+
+WORKDIR /app
 
 CMD ["bash"]
