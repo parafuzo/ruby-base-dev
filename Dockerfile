@@ -1,7 +1,7 @@
 FROM parafuzo/ruby-base
 MAINTAINER dev@parafuzo.com
 
-RUN apk add --update nodejs python && \
+RUN apk add --update nodejs curl python && \
     npm install -g yarn
 
 # Phantomjs 1.9.7
