@@ -21,14 +21,6 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # ==============================================================================
-# Yarn
-# ==============================================================================
-
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-  && echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-  && apt-get update && apt-get install -yq yarn
-
-# ==============================================================================
 # Node 7.2.0
 # ==============================================================================
 
@@ -53,6 +45,12 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   && grep " node-v$NODE_VERSION-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
   && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
   && rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
+
+# ==============================================================================
+# Yarn 0.18.0
+# ==============================================================================
+
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.18.0
 
 # ==============================================================================
 # PhantomJS 2.1.1
