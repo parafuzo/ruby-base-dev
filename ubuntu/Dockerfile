@@ -67,8 +67,8 @@ RUN npm set progress=false \
 # Ruby 2.2.6
 # ==============================================================================
 
-ENV RUBY_MAJOR 2.3
-ENV RUBY_VERSION 2.3.3
+ENV RUBY_MAJOR 2.2
+ENV RUBY_VERSION 2.2.6
 
 # Set $PATH so that non-login shells will see the Ruby binaries
 ENV PATH $PATH:/opt/rubies/ruby-$RUBY_VERSION/bin
