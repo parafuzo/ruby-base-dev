@@ -54,15 +54,15 @@ ENV PHANTOMJS_VERSION 2.1.1
 
 RUN \
   cd /usr/local/share && \
-  curl -L -O https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2 && \
-  tar xjf phantomjs-$PHANTOMJS_VERSION-linux-x86_64-linux-x86_64.tar.bz2 && \
-  ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs && \
-  ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs && \
-  ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+  curl -L -O "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2" && \
+  tar xjf "phantomjs-$PHANTOMJS_VERSION-linux-x86_64-linux-x86_64.tar.bz2" && \
+  ln -s "/usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs" /usr/local/share/phantomjs && \
+  ln -s "/usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs" /usr/local/bin/phantomjs && \
+  ln -s "/usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs" /usr/bin/phantomjs
 
 # Global install yarn package manager
-RUN npm set progress=false && \
-    npm install -g --progress=false yarn
+RUN npm set progress=false \
+  && npm install -g --progress=false yarn
 
 # ==============================================================================
 # Ruby 2.2.6
@@ -75,15 +75,15 @@ ENV RUBY_VERSION 2.2.6
 ENV PATH $PATH:/opt/rubies/ruby-$RUBY_VERSION/bin
 
 # Install MRI Ruby $RUBY_VERSION
-RUN curl -O http://ftp.ruby-lang.org/pub/ruby/$RUBY_MAJOR/ruby-$RUBY_VERSION.tar.gz && \
-    tar -zxvf ruby-$RUBY_VERSION.tar.gz && \
-    cd ruby-$RUBY_VERSION && \
-    ./configure --disable-install-doc && \
-    make && \
-    make install && \
-    cd .. && \
-    rm -r ruby-$RUBY_VERSION ruby-$RUBY_VERSION.tar.gz && \
-    echo 'gem: --no-document' > /usr/local/etc/gemrc
+RUN curl -O http://ftp.ruby-lang.org/pub/ruby/$RUBY_MAJOR/ruby-$RUBY_VERSION.tar.gz \
+  && tar -zxvf ruby-$RUBY_VERSION.tar.gz \
+  && cd ruby-$RUBY_VERSION \
+  && ./configure --disable-install-doc \
+  && make \
+  && make install \
+  && cd .. \
+  && rm -r ruby-$RUBY_VERSION ruby-$RUBY_VERSION.tar.gz \
+  && echo 'gem: --no-document' > /usr/local/etc/gemrc
 
 # ==============================================================================
 # Rubygems and Bundler
@@ -94,12 +94,13 @@ ENV RUBYGEMS_VERSION 2.3.0
 
 # Install rubygems and bundler
 ADD http://production.cf.rubygems.org/rubygems/rubygems-$RUBYGEMS_VERSION.tgz /tmp/
-RUN cd /tmp && \
-    tar -zxf /tmp/rubygems-$RUBYGEMS_VERSION.tgz && \
-    cd /tmp/rubygems-$RUBYGEMS_VERSION && \
-    ruby setup.rb && \
-    /bin/bash -l -c 'gem install bundler --no-rdoc --no-ri' && \
-    echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+RUN cd /tmp \
+  && tar -zxf /tmp/rubygems-$RUBYGEMS_VERSION.tgz \
+  && cd /tmp/rubygems-$RUBYGEMS_VERSION \
+  && ruby setup.rb \
+  && /bin/bash -l -c 'gem install bundler --no-rdoc --no-ri' \
+  && echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+  && rm -rf /tmp/* /var/tmp/*
 
 WORKDIR /app
 
