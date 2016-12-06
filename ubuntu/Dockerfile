@@ -51,6 +51,7 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 # ==============================================================================
 
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 0.18.0
+ENV PATH $HOME/.yarn/bin:$PATH
 
 # ==============================================================================
 # PhantomJS 2.1.1
