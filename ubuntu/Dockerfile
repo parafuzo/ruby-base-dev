@@ -21,6 +21,14 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # ==============================================================================
+# Yarn
+# ==============================================================================
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+  && apt-get update && apt-get install -yq yarn
+
+# ==============================================================================
 # Node 7.2.0
 # ==============================================================================
 
@@ -58,10 +66,6 @@ RUN cd /usr/local/share \
   && ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs \
   && ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs \
   && ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
-
-# Global install yarn package manager
-RUN npm set progress=false \
-  && npm install -g --progress=false yarn
 
 # ==============================================================================
 # Ruby 2.2.6
