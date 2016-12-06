@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 MAINTAINER dev@parafuzo.com
 
 # Ignore APT warnings about not having a TTY
@@ -52,13 +52,12 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 
 ENV PHANTOMJS_VERSION 2.1.1
 
-RUN \
-  cd /usr/local/share && \
-  curl -L -O "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2" && \
-  tar xjf "phantomjs-$PHANTOMJS_VERSION-linux-x86_64-linux-x86_64.tar.bz2" && \
-  ln -s "/usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs" /usr/local/share/phantomjs && \
-  ln -s "/usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs" /usr/local/bin/phantomjs && \
-  ln -s "/usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs" /usr/bin/phantomjs
+RUN cd /usr/local/share \
+  && curl -SLO https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
+  && tar xjf phantomjs-2.1.1-linux-x86_64.tar.bz2 \
+  && ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs \
+  && ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs \
+  && ln -s /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
 
 # Global install yarn package manager
 RUN npm set progress=false \
@@ -68,8 +67,8 @@ RUN npm set progress=false \
 # Ruby 2.2.6
 # ==============================================================================
 
-ENV RUBY_MAJOR 2.2
-ENV RUBY_VERSION 2.2.6
+ENV RUBY_MAJOR 2.3
+ENV RUBY_VERSION 2.3.3
 
 # Set $PATH so that non-login shells will see the Ruby binaries
 ENV PATH $PATH:/opt/rubies/ruby-$RUBY_VERSION/bin
@@ -89,8 +88,8 @@ RUN curl -O http://ftp.ruby-lang.org/pub/ruby/$RUBY_MAJOR/ruby-$RUBY_VERSION.tar
 # Rubygems and Bundler
 # ==============================================================================
 
-ENV RUBYGEMS_MAJOR 2.3
-ENV RUBYGEMS_VERSION 2.3.0
+ENV RUBYGEMS_MAJOR 2.6
+ENV RUBYGEMS_VERSION 2.6.8
 
 # Install rubygems and bundler
 ADD http://production.cf.rubygems.org/rubygems/rubygems-$RUBYGEMS_VERSION.tgz /tmp/
@@ -99,7 +98,7 @@ RUN cd /tmp \
   && cd /tmp/rubygems-$RUBYGEMS_VERSION \
   && ruby setup.rb \
   && /bin/bash -l -c 'gem install bundler --no-rdoc --no-ri' \
-  && echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+  && echo "gem: --no-ri --no-rdoc" > ~/.gemrc \
   && rm -rf /tmp/* /var/tmp/*
 
 WORKDIR /app
