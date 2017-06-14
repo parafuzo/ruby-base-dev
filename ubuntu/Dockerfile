@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
   && apt-get upgrade -yq \
-  && apt-get -yq install locales build-essential python ca-certificates curl wget bindfs vim git-core zlib1g-dev \
+  && apt-get -yq install locales tzdata build-essential python ca-certificates curl wget bindfs vim git-core zlib1g-dev \
     autoconf imagemagick libbz2-dev libevent-dev libglib2.0-dev libjpeg-dev libmagickcore-dev gcc \
     libmagickwand-dev libncurses-dev libcurl4-openssl-dev libffi-dev libgdbm-dev libpq-dev libc6-dev \
     libreadline-dev libreadline6-dev libssl-dev libtool libxml2-dev libxslt-dev libyaml-dev \
